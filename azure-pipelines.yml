@@ -1,16 +1,18 @@
-parameters:
-  jobs: []
+trigger:
+  branches:
+    include:
+    -  master
 
-jobs:
-- job: CredScan                       # Cred scan first
-  pool: MyCredScanPool
-  steps:
-  - task: MyCredScanTask@1
-- ${{ each job in parameters.jobs }}: # Then each job
-  - ${{ each pair in job }}:          # Insert all properties other than "dependsOn"
-      ${{ if ne(pair.key, 'dependsOn') }}:
-        ${{ pair.key }}: ${{ pair.value }}
-    dependsOn:                        # Inject dependency
-    - CredScan
-    - ${{if job.dependsOn}}:            
-      - ${{ job.dependsOn }}
+pool:
+  vmImage: 'ubuntu-16.04'
+
+steps:
+- task: Docker@2
+  displayName: Docker build and Push
+  inputs:
+    dockerfile: Dockerfile
+    command: buildAndPush
+    repository: DockerHubImages
+    tags: |
+      $(Build.BuildNumber)
+      latest
