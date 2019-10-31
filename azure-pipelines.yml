@@ -31,7 +31,6 @@ stages:
       inputs:
         dockerVersion: '17.09.0-ce'
     - script: |
-        cd dockeragent
         docker build -f Dockerfile.$(IMAGE_TAG) -t $(DOCKER_USERNAME)/$(IMAGE_NAME)$(IMAGE_SUFF):$(IMAGE_TAG) . 
       displayName: 'docker build'
     - script: |
