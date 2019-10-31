@@ -1,0 +1,12 @@
+parameters:
+  myCollection:
+  - key: myKey1
+    value: my value 1
+  - key: myKey2
+    value: my value 2
+myMapping:
+  outer pre: abc
+  ${{ each myItem in parameters.myCollection }}:    # Each key-value pair in the mapping
+    pre_${{ myItem.key }}: pre ${{ myItem.value }}
+    ${{ myItem.key }}: ${{ myItem.Value }}
+  outer post: def
