@@ -25,4 +25,5 @@ stages:
         repository: DockerHubImages
         Dockerfile: '$(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineGLIB'
         tags: |
-          $(tag):latest
+          $(tag)
+          latest
