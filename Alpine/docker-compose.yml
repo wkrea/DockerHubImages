@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  alpine:
+    build:
+      context: .
+      dockerfile: Dockerfile.AlpineMini
+    env_file: .env_MiniAlpine
+    container_name: alpine-mini
