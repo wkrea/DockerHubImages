@@ -28,3 +28,13 @@ stages:
     - task: DockerInstaller@0
       inputs:
         dockerVersion: '17.09.0-ce'
+    - script: |
+        docker build -f Dockerfile.$(IMAGE_TAG) -t $(DOCKER_USERNAME)/$(IMAGE_NAME)$(IMAGE_SUFF):$(IMAGE_TAG) . 
+      displayName: 'docker build'
+    - script: |
+        docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
+      displayName: 'docker login'
+    - script: |
+        docker push $(DOCKER_USERNAME)/$(IMAGE_NAME)$(IMAGE_SUFF):$(IMAGE_TAG)
+      displayName: 'docker push'
+      #condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
