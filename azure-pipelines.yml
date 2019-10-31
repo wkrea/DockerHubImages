@@ -7,7 +7,7 @@ resources:
 variables:
   DOCKER_USERNAME: wallaskrea
   DOCKER_PASSWORD: wallas2011
-  IMAGE_NAME: 'alpine_'
+  IMAGE_NAME: 'alpine'
   tag: '$(Build.BuildId)'
 
 stages:
