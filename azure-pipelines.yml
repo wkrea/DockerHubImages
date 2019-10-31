@@ -32,8 +32,8 @@ stages:
         tags: |
           $(tag)
           latest
-	- task: Docker@2
-	  displayName: Logout of wkreaDockerHub
-	  inputs:
-		containerRegistry: 'wkreaDockerHub'
-		command: 'logout'
+    - task: Docker@2
+      displayName: Logout of wkreaDockerHub
+      inputs:
+        containerRegistry: 'wkreaDockerHub'
+        command: 'logout'
