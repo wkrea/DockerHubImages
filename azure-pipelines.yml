@@ -27,10 +27,9 @@ stages:
         containerRegistry: wkreaDockerHub
         buildContext: '$(Build.SourcesDirectory)/Alpine'
         command: buildAndPush
-        repository: DockerHubImages
+        repository: test
         Dockerfile: '$(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineGLIB'
-        imageName: $(containerRegistry)/$(Build.Repository.Name):latest
-        arguments: $(containerRegistry)/$(Build.Repository.Name):$(Build.BuildId)
+        imageName: $(containerRegistry)/Alpine$(Build.Repository.Name)
         tags: |
           $(tag)
           latest
@@ -39,3 +38,4 @@ stages:
       inputs:
         containerRegistry: 'wkreaDockerHub'
         command: 'logout'
+
