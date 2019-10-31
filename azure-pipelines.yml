@@ -1,12 +1,16 @@
 parameters:
-  myCollection:
-  - key: myKey1
-    value: my value 1
-  - key: myKey2
-    value: my value 2
-myMapping:
-  outer pre: abc
-  ${{ each myItem in parameters.myCollection }}:    # Each key-value pair in the mapping
-    pre_${{ myItem.key }}: pre ${{ myItem.value }}
-    ${{ myItem.key }}: ${{ myItem.Value }}
-  outer post: def
+  jobs: []
+
+jobs:
+- job: CredScan                       # Cred scan first
+  pool: MyCredScanPool
+  steps:
+  - task: MyCredScanTask@1
+- ${{ each job in parameters.jobs }}: # Then each job
+  - ${{ each pair in job }}:          # Insert all properties other than "dependsOn"
+      ${{ if ne(pair.key, 'dependsOn') }}:
+        ${{ pair.key }}: ${{ pair.value }}
+    dependsOn:                        # Inject dependency
+    - CredScan
+    - ${{if job.dependsOn}}:            
+      - ${{ job.dependsOn }}
