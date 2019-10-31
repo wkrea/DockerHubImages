@@ -17,13 +17,13 @@ stages:
     strategy:
       matrix:
         amd64-alpine:
-          IMAGE_SUFF: GLIB
+          IMAGE_SUFF: glib
           IMAGE_TAG: 10.3.1
         amd64-alpine-glibc:
-          IMAGE_SUFF: miniGLIB
+          IMAGE_SUFF: miniglib
           IMAGE_TAG: 10.3.1
         amd64-alpine-glibc-miniconda:
-          IMAGE_TAG: minicondaGLIB
+          IMAGE_TAG: minicondaglib
     pool:
       vmImage: 'ubuntu-18.04'
     steps:
@@ -32,12 +32,12 @@ stages:
         dockerVersion: '17.09.0-ce'
     - script: |
         cd dockeragent
-        docker build -f Dockerfile.$(IMAGE_TAG) -t $(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_TAG) . 
+        docker build -f Dockerfile.$(IMAGE_TAG) -t $(DOCKER_USERNAME)/$(IMAGE_NAME)$(IMAGE_SUFF):$(IMAGE_TAG) . 
       displayName: 'docker build'
     - script: |
         docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
       displayName: 'docker login'
     - script: |
-        docker push $(DOCKER_USERNAME)/$(IMAGE_NAME)
+        docker push $(DOCKER_USERNAME)/$(IMAGE_NAME)$(IMAGE_SUFF)
       displayName: 'docker push'
       #condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
