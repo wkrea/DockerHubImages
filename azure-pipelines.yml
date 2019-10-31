@@ -25,7 +25,7 @@ stages:
       inputs:
         containerRegistry: 'wkreaDockerHub'
         repository: 'test'
-        command: buildAndPush
+        command: build
         Dockerfile: '$(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineGLIB'
         tags: |
           $(Build.BuildId)
@@ -34,7 +34,7 @@ stages:
       inputs:
         containerRegistry: 'wkreaDockerHub'
         repository: 'test'
-        command: 'push'
+        command: push
         tags: |
           $(Build.BuildId)
           latest
