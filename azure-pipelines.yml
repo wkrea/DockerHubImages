@@ -21,21 +21,21 @@ stages:
       inputs:
         containerRegistry: 'wkreaDockerHub'
         command: 'login'
-	- task: Docker@2
-	  inputs:
-		containerRegistry: 'wkreaDockerHub'
-		repository: 'test'
-		command: 'build'
-		Dockerfile: '$(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineGLIB'
-		imageName: $(containerRegistry)/Alpine$(Build.Repository.Name)
-	- task: Docker@2
-	  inputs:
-		containerRegistry: 'wkreaDockerHub'
-		repository: 'test'
-		command: 'push'
-		tags: |
-		  $(Build.BuildId)
-		  latest
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'wkreaDockerHub'
+        repository: 'test'
+        command: 'build'
+        Dockerfile: '$(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineGLIB'
+        arguments: -t $(containerRegistry)/Alpine$(Build.Repository.Name)
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'wkreaDockerHub'
+        repository: 'test'
+        command: 'push'
+        tags: |
+          $(Build.BuildId)
+          latest
     - task: Docker@2
       displayName: Logout of wkreaDockerHub
       inputs:
