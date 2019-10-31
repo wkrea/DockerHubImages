@@ -10,7 +10,7 @@ steps:
 - task: Docker@2
   displayName: Docker build and Push
   inputs:
-    dockerfile: Dockerfile
+    dockerfile: Alpine/Dockerfile.AlpineGLIB
     command: buildAndPush
     repository: DockerHubImages
     tags: |
