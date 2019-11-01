@@ -30,26 +30,29 @@ variables:
   value: 'alpinemini:$(build.buildId)'
 
 steps:
+
+- task: Docker@2
+  displayName: Login to Docker Hub
+  inputs:
+    command: login
+    containerRegistry: wkreaDockerHub
+- task: Docker@2
+  displayName: Build and Push
+  inputs:
+    command: buildAndPush
+    repository: wallaskrea/alpinemini
+    Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
+    tags: |
+      10.3.1
+      latest
+- script: |
+    docker images 
 - task: Docker@2
   displayName: Login to wkreaDockerHub
   inputs:
     containerRegistry: 'wkreaDockerHub'
     command: 'login'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'wkreaDockerHub'
-    command: 'build'
-    Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
-# - task: Docker@2
-#   inputs:
-#     containerRegistry: 'wkreaDockerHub'
-#     repository: 'alpinemini'
-#     command: 'push'
-#     tags: |
-#       $(Build.BuildId)
-#       latest
 - script: |
-    docker images
     docker build -f $(Build.SourcesDirectory)/Alpine/Dockerfile.alpinemini -t wallaskrea/$(imageName) .
     docker tag wallaskrea/$(imageName) wallaskrea/$(imageName)
     docker push wallaskrea/$(imageName)
