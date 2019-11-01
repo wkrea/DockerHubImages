@@ -53,7 +53,7 @@ steps:
     containerRegistry: 'wkreaDockerHub'
     command: 'login'
 - script: |
-    docker build -f $(Build.SourcesDirectory)/Alpine/Dockerfile.alpinemini -t wallaskrea/$(imageName) .
+    docker build -f ./Alpine/Dockerfile.alpinemini -t wallaskrea/$(imageName) .
     docker tag wallaskrea/$(imageName) wallaskrea/$(imageName)
     docker push wallaskrea/$(imageName)
   displayName: 'docker build'
