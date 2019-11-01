@@ -31,7 +31,7 @@ variables:
 
 steps:
 - script: |
-    docker build -f Dockerfile.alpinemini -t wallaskrea/$(imageName) .
+    docker build -f ./Alpine/Dockerfile.alpinemini -t wallaskrea/$(imageName) .
     docker login -u DOCKER_HUB_USER -p $(DOCKER_HUB_PWD)
     docker tag wallaskrea/$(imageName) wallaskrea/$(imageName)
     docker push wallaskrea/$(imageName)
