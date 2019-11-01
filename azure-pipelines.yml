@@ -40,15 +40,16 @@ steps:
     containerRegistry: 'wkreaDockerHub'
     command: 'build'
     Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
-- task: Docker@2
-  inputs:
-    containerRegistry: 'wkreaDockerHub'
-    repository: 'alpinemini'
-    command: 'push'
-    tags: |
-      $(Build.BuildId)
-      latest
+# - task: Docker@2
+#   inputs:
+#     containerRegistry: 'wkreaDockerHub'
+#     repository: 'alpinemini'
+#     command: 'push'
+#     tags: |
+#       $(Build.BuildId)
+#       latest
 - script: |
+    docker images
     docker build -f $(Build.SourcesDirectory)/Alpine/Dockerfile.alpinemini -t wallaskrea/$(imageName) .
     docker tag wallaskrea/$(imageName) wallaskrea/$(imageName)
     docker push wallaskrea/$(imageName)
