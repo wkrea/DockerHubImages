@@ -1,8 +1,9 @@
-# trigger:
-# - master
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=azure-devops
+
 trigger:
   branches:
     include:
+      - master
       - refs/tags/{tagname}
     exclude:
       - refs/tags/{othertagname}
