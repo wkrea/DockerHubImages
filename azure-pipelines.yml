@@ -38,8 +38,9 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'wkreaDockerHub'
+    buildContext: $(Build.SourcesDirectory)/Alpine
     command: 'build'
-    Dockerfile: '$(Build.SourcesDirectory)/Alpine/Dockerfile.alpinemini'
+    Dockerfile: Dockerfile.AlpineMini
 - task: Docker@2
   inputs:
     containerRegistry: 'wkreaDockerHub'
