@@ -52,9 +52,3 @@ steps:
   inputs:
     containerRegistry: 'wkreaDockerHub'
     command: 'login'
-- script: |
-    cd ./Alpine
-    docker build -f Dockerfile.alpinemini -t wallaskrea/$(imageName) .
-    docker tag wallaskrea/$(imageName) wallaskrea/$(imageName)
-    docker push wallaskrea/$(imageName)
-  displayName: 'docker build'
