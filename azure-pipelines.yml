@@ -12,7 +12,7 @@ resources:
 variables:
   imageName: 'alpine'
   tag: '$(Build.BuildId)'
-  dockerHubImageName: 'wallaskrea/$(imageName)'
+  dockerHubImageName: 'wallaskrea'
   acrRegistryName: 'gomods'
   acrLoginServer: '$(acrRegistryName).azurecr.io'
   acrImageName: '$(acrLoginServer)/$(imageName)'
@@ -42,9 +42,9 @@ stages:
         echo "dockerhub login"
         docker login -u $(dockerHubUsername) -p $(dockerHubPassword)
         echo "tag for dockerhub"
-        docker tag $(dockerHubImageName) $(imageName)
+        docker tag $(dockerHubImageName)/$(imageName) $(imageName)
         echo "push to dockerhub"
-        docker push $(dockerHubImageName)
+        docker push $(dockerHubImageName)/$(imageName)
         # echo "done with dockerhub and ACR push"
         # for some reason choco install azure-cli does not add the az dir to the PATH
         # dir based on https://github.com/Azure/azure-cli/blob/dev/build_scripts/windows/Product.wxs
