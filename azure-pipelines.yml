@@ -1,55 +1,102 @@
-# https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=azure-devops
 
-trigger:
-  branches:
-    include:
-      - master
-      - refs/tags/{tagname}
-    exclude:
-      - refs/tags/{othertagname}
-# specific path build
-pr:
-  branches:
-    include:
-    - releases/*
-    exclude:
-    - master
-  paths:
-    include:
-    - docs/*
-    exclude:
-    - docs/README.md
+stages:
+  - stage: "Build DockerHub Images"
+    jobs:
+    - job: 'Testing'
+      displayName: Testing
+      strategy:
+          matrix:
+            AlpineMini:
+              ImageName: "alpinemini"
+              Dockerfile: Dockerfile.alpinemini
+              Tags: |
+                  10.3.1
+                  latest
+            # CentOS7:
+            #   container: "centos:7"
+            # UbuntuPrecise:
+            #   container: "ubuntu:precise"
+            # UbuntuTrusty:
+            #   container: "ubuntu:trusty"
+            # UbuntuXenial:
+            #   container: "ubuntu:xenial"
+            # UbuntuBionic:
+            #   container: "ubuntu:bionic"
+            # DebianWheezy:
+            #   container: "debian:wheezy"
+            # DebianJessie:
+            #   container: "debian:jessie"
+            # DebianStretch:
+            #   container: "debian:stretch"
+            # DebianBuster:
+            #   container: "debian:buster"
+            # Manylinux1-686:
+            #   container: "quay.io/pypa/manylinux1_i686:latest"
+            # Manylinux1-64:
+            #   container: "quay.io/pypa/manylinux1_x86_64:latest"
+            # PhusionCentOS5-32:
+            #   container: "phusion/centos-5-32:latest"
+        # pool:
+        #   vmImage: $(variables.container)
+        steps:
+        - template: azure_templates/dockerhub_jobs.yml # Template reference
+          parameters:
+            - job: 'Build'
+                jobname: "Building Alpine"
+                
+                dockerfile: ${{ variables.Dockerfile }}
+                tags: ${{ Tags }}
 
-resources:
-- repo: self
+# https://github.com/alex/azure-pipelines-docker-test/blob/master/azure-pipelines.yml
+# # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=azure-devops
 
-pool:
-  vmImage: 'Ubuntu-18.04'
+# trigger:
+#   branches:
+#     include:
+#       - master
+#       - refs/tags/{tagname}
+#     exclude:
+#       - refs/tags/{othertagname}
+# # specific path build
+# pr:
+#   branches:
+#     include:
+#       - releases/*
+#     exclude:
+#       - master
+#   paths:
+#     include:
+#       - docs/*
+#     exclude:
+#       - docs/README.md
 
-variables:
-- name: imageName
-  value: 'alpinemini:$(build.buildId)'
+# resources:
+#   - repo: self
 
-steps:
+# pool:
+#   vmImage: "Ubuntu-18.04"
 
-- task: Docker@2
-  displayName: Login to Docker Hub
-  inputs:
-    command: login
-    containerRegistry: wkreaDockerHub
-- task: Docker@2
-  displayName: Build and Push
-  inputs:
-    command: buildAndPush
-    repository: wallaskrea/alpinemini
-    Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
-    tags: |
-      10.3.1
-      latest
-- script: |
-    docker images 
-- task: Docker@2
-  displayName: Login to wkreaDockerHub
-  inputs:
-    containerRegistry: 'wkreaDockerHub'
-    command: 'login'
+# variables:
+#   - name: imageName
+#     value: "alpinemini:$(build.buildId)"
+
+# steps:
+#   - task: Docker@2
+#     displayName: Login to Docker Hub
+#     inputs:
+#       command: login
+#       containerRegistry: wkreaDockerHub
+#   - task: Docker@2
+#     displayName: Build and Push
+#     inputs:
+#       command: buildAndPush
+#       repository: wallaskrea/alpinemini
+#       Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
+#       tags: |
+#         10.3.1
+#         latest
+#   - task: Docker@2
+#     displayName: Logout of wkreaDockerHub
+#     inputs:
+#       containerRegistry: "wkreaDockerHub"
+#       command: "logout"

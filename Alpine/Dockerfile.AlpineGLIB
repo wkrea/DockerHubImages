@@ -5,7 +5,7 @@
 # https://jcrist.github.io/conda-docker-tips.html
 
 ## Build:
-##  docker build  --squash -f Dockerfile.AlpineGLIB -t "wkrea/wkrea/alpine_glib:latest" .
+##  docker build  --squash -f Dockerfile.AlpineGLIB -t "wkrea/alpine_glib:latest" .
 ##  docker build  --squash -f Dockerfile -t "wkrea/alpine_glib:latest" .
 
 ## docker pull wkrea/alpine_glib:latest
