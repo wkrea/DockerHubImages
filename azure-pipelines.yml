@@ -26,7 +26,6 @@ pool:
   vmImage: 'Ubuntu-18.04'
 
 variables:
-- group: nannany_secret
 - name: imageName
   value: 'alpinemini:$(build.buildId)'
 
