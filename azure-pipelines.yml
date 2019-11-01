@@ -1,4 +1,55 @@
+###########################################################################
+##                              TRIGGERS
+###########################################################################
+trigger:
+  branches:
+    include:
+    - '*'
+    exclude:
+    - master
+  paths:
+    exclude:
+    - README.md
+  tags:
+    include:
+    - v*
+    exclude:
+    - v2.0
+###########################################################################
+##                              PR's
+###########################################################################
+pr:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - master
+      - releases/*
+  paths:
+    exclude:
+    - README.md
+###########################################################################
+##                              SCHEDULES
+###########################################################################
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+    - master
+    - releases/*
+    exclude:
+    - releases/ancient/*
+- cron: "0 12 * * 0"
+  displayName: Weekly Sunday build
+  branches:
+    include:
+    - releases/*
+  always: true
 
+###########################################################################
+##                              BUILD  STAGE
+###########################################################################
 stages:
   - stage: "Build DockerHub Images"
     jobs:
@@ -38,14 +89,13 @@ stages:
             #   container: "phusion/centos-5-32:latest"
         # pool:
         #   vmImage: $(variables.container)
-        steps:
-        - template: azure_templates/dockerhub_jobs.yml # Template reference
-          parameters:
-            - job: 'Build'
-                jobname: "Building Alpine"
-                
-                dockerfile: ${{ variables.Dockerfile }}
-                tags: ${{ Tags }}
+      steps:
+      - template: azure_templates/dockerhub_jobs.yml # Template reference
+        parameters:
+          job: "Build"
+            jobname: "Building ${{ ImageName }}"
+            dockerfile: ${{ variables.Dockerfile }}
+            tags: ${{ variables.Tags }}
 
 # https://github.com/alex/azure-pipelines-docker-test/blob/master/azure-pipelines.yml
 # # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=azure-devops
