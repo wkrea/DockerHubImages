@@ -27,10 +27,10 @@ stages:
           IMAGE_SUFF: glib
           IMAGE_TAG: 10.3.1
         amd64-alpine-glibc:
-          IMAGE_SUFF: miniglib
+          IMAGE_SUFF: mini
           IMAGE_TAG: 10.3.1
         amd64-alpine-glibc-miniconda:
-          IMAGE_TAG: minicondaglib
+          IMAGE_TAG: miniglib
     pool:
       vmImage: 'win1803'
     steps:
@@ -38,11 +38,11 @@ stages:
         choco install azure-cli
         gci 'C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin'
         echo "docker build"
-        docker build --isolation=hyperv -f Dockerfile -t $(imageName) .
+        docker build --isolation=hyperv -f Dockerfile.$(imageName)${IMAGE_SUFF} -t $(imageName) .
         echo "dockerhub login"
         docker login -u $(dockerHubUsername) -p $(dockerHubPassword)
         echo "tag for dockerhub"
-        docker tag $(imageName) $(dockerHubImageName)
+        docker tag $(dockerHubImageName) $(imageName)
         echo "push to dockerhub"
         docker push $(dockerHubImageName)
         # echo "done with dockerhub and ACR push"
