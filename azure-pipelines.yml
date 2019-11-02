@@ -14,6 +14,6 @@ stages:
           JOB_VAR: "a job var"
         steps:
           - script: echo $(MY_VAR) $(STAGE_VAR) $(JOB_VAR)
-  - template: DockerHub/jobs_build.yml # Template reference
+  - template: DockerHub/jobs_build.yml
     parameters:
       name: Build DockerHub Images

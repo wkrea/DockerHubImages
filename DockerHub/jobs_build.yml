@@ -4,11 +4,11 @@ parameters:
 
 stages:
   - stage: Build
-    displayName: Build for ${{ parameters.name }}
+    displayName: Build for
     jobs:
-      - job: Windows
+      - job: Linux
         pool:
-          vmImage: "vs2017-win2016"
+          vmImage: "ubuntu-16.04"
         strategy:
           matrix:
             AlpineMini:
@@ -26,14 +26,14 @@ stages:
                 10.3.1
                 latest
         steps:
+          - script: echo hello from Linux
+      - job: Windows
+        pool:
+          vmImage: "vs2017-win2016"
+        steps:
           - script: echo hello from Windows
       - job: macOS
         pool:
           vmImage: "macOS-10.13"
         steps:
           - script: echo hello from macOS
-      - job: Linux
-        pool:
-          vmImage: "ubuntu-16.04"
-        steps:
-          - script: echo hello from Linux
