@@ -1,13 +1,14 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
 parameters:
   tareas: { }
-variables:
-- template: azure_templates/jobs_variables.yml  # Template reference
+
 jobs:
   - ${{ each job in parameters.tareas }}: # Each job
       - job: ${{ job.job }} # Copy the job properties
         displayName: ${{ job.name }}
         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+        variables:
+        - template: azure_templates/jobs_variables.yml  # Template reference
         # - ${{ if job.dependsOn }}:
         #   - ${{ job.dependsOn }}
         workspace:
