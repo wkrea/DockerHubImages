@@ -1,3 +1,4 @@
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml
 parameters:
   name: ""
   os: ""
@@ -27,7 +28,7 @@ stages:
                 latest
         steps:
           - script: echo hello from Linux $(variables.ImageName) ${{ variables.ImageName }}
-          - template: $(Build.SourcesDirectory)/azure_templates/dockerhub_jobs.yml # Template reference
+          - template: AzureTemplates/DockerHub/BuildImages_steps.yml # Template reference
             parameters:
               tarea:
                 name: "Building ${{ variables.ImageName }}"

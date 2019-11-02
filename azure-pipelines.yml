@@ -3,6 +3,6 @@ variables: # pipeline-level
   ANOTHER_VAR: "another value"
 
 stages:
-  - template: $(Build.SourcesDirectory)/DockerHub/jobs_build.yml
+  - template: AzureTemplates/DockerHub/BuildImages_jobs.yml
     parameters:
       name: Build DockerHub Images
