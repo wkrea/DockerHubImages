@@ -83,6 +83,7 @@ stages:
           matrix:
             AlpineMini:
               ImageName: "alpinemini"
+              BuildContext: "$(Build.SourcesDirectory)/Alpine"
               Dockerfile: Dockerfile.alpinemini
               Tags: |
                   10.3.1
@@ -119,6 +120,7 @@ stages:
           job:
             name: "Building ${{ variables.ImageName }}"
             dockerfile: ${{ variables.Dockerfile }}
+            buildContext: ${{ variables.BuildContext }}
             tags: ${{ variables.Tags }}
 
 
