@@ -1,7 +1,8 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
 parameters:
   tareas: { }
-
+variables:
+- template: azure_templates/jobs_variables.yml  # Template reference
 jobs:
   - ${{ each job in parameters.tareas }}: # Each job
       - job: ${{ job.job }} # Copy the job properties
@@ -12,32 +13,18 @@ jobs:
         workspace:
           clean: all # outputs | resources | all what to clean up before the job runs 
         container: "" # container to run this job inside
+        timeoutInMinutes: ${{ variables.TIMEOUT }} # how long to run the job before automatically cancelling
+        cancelTimeoutInMinutes: ${{ variables.CANCELTIMEOUT }} # how much time to give 'run always even if cancelled tasks' before killing them
 
-        variables:
-          vmImages:
-            - "win1803"
-            - 'ubuntu-16.04'
-            - 'vs2017-win2016'
-            - 'macOS-10.13'
-          SERVICENAME_DOCKERHUB: "wallaskreaDockerHub"
-          DOCKERHUB_ACCOUNT: wallaskrea
-          ALPINE_CONTEXT: ""
-          tag: "$(Build.BuildId)"
-          TIMEOUT: 30
-          CANCELTIMEOUT: 1 
-
-        timeoutInMinutes: $(variables.TIMEOUT) # how long to run the job before automatically cancelling
-        cancelTimeoutInMinutes: $(variables.CANCELTIMEOUT) # how much time to give 'run always even if cancelled tasks' before killing them
-
-        - ${{ each vmImage in $(variables.vmImages) }}: # Each job
+        - ${{ each vmImage in ${{ variables.vmImages }} }}: # Each job
           pool:
             vmImage: $(vmImage)
           steps:
-            - script: echo $(vmImage) -> building ${{ job.name }}
+            - script: echo $(vmImage)-> building ${{ job.name }}
             - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
               param:
-                serviceDockerHub: $(variables.SERVICENAME_DOCKERHUB)
-                repository: $(variables.DOCKERHUB_ACCOUNT)/${{ job.ImageName }} #wallaskrea/alpinemini # 
+                serviceDockerHub: ${{ variables.SERVICENAME_DOCKERHUB }}
+                repository: ${{ variables.DOCKERHUB_ACCOUNT }}/${{ job.ImageName }} #wallaskrea/alpinemini # 
                 dockerfile: ${{ job.dockerfile }}
                 buildContext: ${{ job.buildContext }} #$(ALPINE_CONTEXT)
                 tags: ${{ job.tags }}
