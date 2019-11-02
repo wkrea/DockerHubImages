@@ -59,13 +59,13 @@ resources:
   repositories:
   - repository: DockerHubImagesRepo      
     type: GitHub
-    connection: wkreGitHubConnection
+    endpoint: wkreGitHubConnection
     name: wkrea/DockerHubImages
     ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
 
   containers:
   - container: AlpineMini 
-    connection: wallaskreaDockerHub
+    endpoint: wallaskreaDockerHub
     image: wallaskrea/alpinemini:latest
     env: {}
     ports: "80"
