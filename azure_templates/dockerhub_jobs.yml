@@ -36,7 +36,7 @@ jobs:
             - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
               param:
                 serviceDockerHub: $(SERVICENAME_DOCKERHUB)
-                repository: $(DOCKERHUB_ACCOUNT)/${{ job.ImageName }}
+                repository: wallaskrea/alpinemini # $(DOCKERHUB_ACCOUNT)/${{ job.ImageName }}
                 dockerfile: ${{ job.dockerfile }}
                 buildContext: ${{ job.buildContext }} #$(ALPINE_CONTEXT)
                 tags: ${{ job.tags }}
