@@ -16,4 +16,4 @@ stages:
           - script: echo $(MY_VAR) $(STAGE_VAR) $(JOB_VAR)
   - template: DockerHub/jobs_build.yml # Template reference
     parameters:
-      name: "Build DockerHub Images"
+      name: Build DockerHub Images
