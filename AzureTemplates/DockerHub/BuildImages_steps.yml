@@ -1,7 +1,13 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
+parameters:
+  name: ""
+  serviceDockerHub: "wallaskreaDockerHub"
+  dockerfile: "$(Build.SourcesDirectory).Dockerfile)"
+  buildContext: "$(Build.SourcesDirectory)"
+  tags: latest
 
 steps:
-  - script: echo $(vmImage)-> building ${{ parameters.name }}
+  - script: echo building ${{ parameters.name }}
   - script: ls
   - task: Docker@2
     displayName: Login to DockerHub
