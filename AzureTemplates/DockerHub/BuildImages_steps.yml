@@ -19,7 +19,7 @@ steps:
     inputs:
       command: buildAndPush
       repository: ${{ parameters.repository }} #wallaskrea/alpinemini #
-      buildContext: ${{ parameters.buildContext }} #$(Build.SourcesDirectory)/Alpine #
+      buildContext: $(Build.SourcesDirectory)/${{ parameters.buildContext }} #$(Build.SourcesDirectory)/Alpine #
       Dockerfile: ${{ parameters.dockerfile }} # $(Build.SourcesDirectory)/Alpine/Dockerfile.alpinemini
       tags: |
         $(tags)
