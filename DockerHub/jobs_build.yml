@@ -7,18 +7,18 @@ stages:
     displayName: Build for ${{ parameters.name }}
     jobs:
       - job: ${{ parameters.name }}_Windows
-        # pool:
-        #   vmImage: variables.vm #vs2017-win2016
+        pool:
+          vmImage: $[variables.vm] #vs2017-win2016
         strategy:
           matrix:
             Win:
-              vmImage: "vs2017-win2016"
+              vm: "vs2017-win2016"
             Lin:
-              vmImage: "ubuntu-16.04"
+              vm: "ubuntu-16.04"
             Mac:
-              vmImage: "macos-10.13"
+              vm: "macos-10.13"
         steps:
-          - ${{ if eq($vmImage, 'ubuntu-16.04') }}:
+          - ${{ if eq( $vmImage, 'ubuntu-16.04') }}:
               - script: echo $(vmImage)
           - ${{ else }}:
               - script: dir
