@@ -117,7 +117,7 @@ stages:
       - template: azure_templates/dockerhub_jobs.yml # Template reference
         parameters:
           job:
-            name: "Building ${{ ImageName }}"
+            name: "Building ${{ variables.ImageName }}"
             dockerfile: ${{ variables.Dockerfile }}
             tags: ${{ variables.Tags }}
 
