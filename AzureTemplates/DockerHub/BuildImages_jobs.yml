@@ -16,13 +16,13 @@ stages:
 
         strategy:
           matrix:
-            AlpineMini:
-              ImageName: "alpinemini"
-              RepositoryName: wallaskrea
-              BuildContext: ./Alpine
-              Tags: |
-                10.3.1
-                latest
+            # AlpineMini:
+            #   ImageName: "alpinemini"
+            #   RepositoryName: wallaskrea
+            #   BuildContext: ./Alpine
+            #   Tags: |
+            #     10.3.1
+            #     latest
             AlpineMiniGLIB:
               ImageName: "alpineminiglib"
               RepositoryName: wallaskrea
