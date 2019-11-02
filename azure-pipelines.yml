@@ -3,17 +3,6 @@ variables: # pipeline-level
   ANOTHER_VAR: "another value"
 
 stages:
-  - stage: "Build DockerHub Images"
-    variables: # stage-level
-      STAGE_VAR: "that happened"
-
-    jobs:
-      - job:
-        displayName: Testing
-        variables: # job-level
-          JOB_VAR: "a job var"
-        steps:
-          - script: echo $(MY_VAR) $(STAGE_VAR) $(JOB_VAR)
   - template: DockerHub/jobs_build.yml
     parameters:
       name: Build DockerHub Images
