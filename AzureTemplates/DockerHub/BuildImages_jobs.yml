@@ -32,14 +32,14 @@ stages:
                 10.3.1
                 latest
         steps:
-          - script: echo hello from Linux $(variables.ImageName) ${{ variables.ImageName }}
+          - script: echo hello from Linux $(ImageName) $(ImageName)
           - template: BuildImages_steps.yml # Template reference
             parameters:
-              name: "Building ${{ variables.ImageName }}"
+              name: Building $(ImageName)
               serviceDockerHub: $(parameters.serviceDockerHub)
-              dockerfile: ${{ variables.Dockerfile }}
-              buildContext: ${{ variables.BuildContext }}
-              tags: ${{ variables.Tags }}
+              dockerfile: $(Dockerfile)
+              buildContext: $(BuildContext)
+              tags: $(Tags)
       # - job: Windows
       #   pool:
       #     vmImage: "vs2017-win2016"
