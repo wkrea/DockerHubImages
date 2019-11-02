@@ -19,7 +19,7 @@ stages:
           matrix:
             AlpineMini:
               ImageName: "alpinemini"
-              BuildContext: $(Build.SourcesDirectory)/Alpine
+              BuildContext: ./Alpine
               Dockerfile: Dockerfile.alpinemini
               Tags: |
                 10.3.1
@@ -27,7 +27,7 @@ stages:
             AlpineMiniGLIB:
               ImageName: "alpineminiglib"
               BuildContext: Alpine
-              Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.alpineminiglib
+              Dockerfile: ./Alpine/Dockerfile.alpineminiglib
               Tags: |
                 10.3.1
                 latest
