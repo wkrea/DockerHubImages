@@ -29,7 +29,7 @@ jobs:
         timeoutInMinutes: $(variables.TIMEOUT) # how long to run the job before automatically cancelling
         cancelTimeoutInMinutes: $(variables.CANCELTIMEOUT) # how much time to give 'run always even if cancelled tasks' before killing them
 
-        - ${{ each vmImage in variables.vmImages }}: # Each job
+        - ${{ each vmImage in $(variables.vmImages) }}: # Each job
           pool:
             vmImage: $(vmImage)
           steps:
