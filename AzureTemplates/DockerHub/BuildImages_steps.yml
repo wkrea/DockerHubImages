@@ -23,7 +23,7 @@ steps:
   - task: Docker@2
     displayName: Logout of DockerHub
     inputs:
-      containerRegistry: ${{ parameters.serviceDockerHub }}
+      containerRegistry: wallaskreaDockerHub #${{ parameters.serviceDockerHub }}
       command: "logout"
 # - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
 #   param:
