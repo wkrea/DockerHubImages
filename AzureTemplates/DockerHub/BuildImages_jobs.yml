@@ -40,13 +40,13 @@ stages:
               dockerfile: ${{ variables.Dockerfile }}
               buildContext: ${{ variables.BuildContext }}
               tags: ${{ variables.Tags }}
-      - job: Windows
-        pool:
-          vmImage: "vs2017-win2016"
-        steps:
-          - script: echo hello from Windows
-      - job: macOS
-        pool:
-          vmImage: "macOS-10.13"
-        steps:
-          - script: echo hello from macOS
+      # - job: Windows
+      #   pool:
+      #     vmImage: "vs2017-win2016"
+      #   steps:
+      #     - script: echo hello from Windows
+      # - job: macOS
+      #   pool:
+      #     vmImage: "macOS-10.13"
+      #   steps:
+      #     - script: echo hello from macOS
