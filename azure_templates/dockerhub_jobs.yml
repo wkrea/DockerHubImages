@@ -33,11 +33,11 @@ jobs:
             vmImage: $(vmImage)
           steps:
             - script: echo $(vmImage) -> building ${{ job.name }}
-            # - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
-            #   param:
-            #     serviceDockerHub: $(SERVICENAME_DOCKERHUB)
-            #     repository: wallaskrea/alpinemini # $(DOCKERHUB_ACCOUNT)/${{ job.ImageName }}
-            #     dockerfile: ${{ job.dockerfile }}
-            #     buildContext: ${{ job.buildContext }} #$(ALPINE_CONTEXT)
-            #     tags: ${{ job.tags }}
-            # - script: echo $(vmImage) -> finish ${{ job.name }}
+            - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
+              param:
+                serviceDockerHub: $(SERVICENAME_DOCKERHUB)
+                repository: wallaskrea/alpinemini # $(DOCKERHUB_ACCOUNT)/${{ job.ImageName }}
+                dockerfile: ${{ job.dockerfile }}
+                buildContext: ${{ job.buildContext }} #$(ALPINE_CONTEXT)
+                tags: ${{ job.tags }}
+            - script: echo $(vmImage) -> finish ${{ job.name }}
