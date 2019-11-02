@@ -2,7 +2,6 @@
 parameters:
   ImageName: ""
   serviceDockerHub: "wallaskreaDockerHub"
-  dockerfile: "$(Build.SourcesDirectory).Dockerfile)"
   buildContext: "$(Build.SourcesDirectory)"
   tags: latest
 
@@ -20,7 +19,7 @@ steps:
       command: buildAndPush
       repository: wallaskrea/${{ parameters.ImageName }} #wallaskrea/alpinemini #
       buildContext: ${{ parameters.buildContext }} #$(Build.SourcesDirectory)/Alpine #
-      Dockerfile: Dockerfile.${{ parameters.ImageName }} #${{ parameters.dockerfile }} #
+      Dockerfile: ${{ parameters.buildContext }}/Dockerfile.${{ parameters.ImageName }} #${{ parameters.dockerfile }} #
       tags: |
         $(tags)
   - task: Docker@2

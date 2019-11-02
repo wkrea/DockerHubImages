@@ -20,14 +20,12 @@ stages:
             AlpineMini:
               ImageName: "alpinemini"
               BuildContext: ./Alpine
-              Dockerfile: Dockerfile.alpinemini
               Tags: |
                 10.3.1
                 latest
             AlpineMiniGLIB:
               ImageName: "alpineminiglib"
               BuildContext: Alpine
-              Dockerfile: ./Alpine/Dockerfile.alpineminiglib
               Tags: |
                 10.3.1
                 latest
@@ -37,7 +35,6 @@ stages:
             parameters:
               ImageName: $(ImageName)
               serviceDockerHub: $(parameters.serviceDockerHub)
-              dockerfile: $(Dockerfile)
               buildContext: $(BuildContext)
               tags: $(Tags)
       # - job: Windows
