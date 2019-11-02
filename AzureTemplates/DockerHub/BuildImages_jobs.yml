@@ -35,7 +35,7 @@ stages:
           - script: echo hello from Linux $(ImageName) $(ImageName)
           - template: BuildImages_steps.yml # Template reference
             parameters:
-              name: Building $(ImageName)
+              ImageName: $(ImageName)
               serviceDockerHub: $(parameters.serviceDockerHub)
               dockerfile: $(Dockerfile)
               buildContext: $(BuildContext)
