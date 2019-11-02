@@ -7,8 +7,8 @@ jobs:
       - job: ${{ job.job }} # Copy the job properties
         displayName: ${{ job.name }}
         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
-        - ${{ if job.dependsOn }}:
-          - ${{ job.dependsOn }}
+        # - ${{ if job.dependsOn }}:
+        #   - ${{ job.dependsOn }}
         workspace:
           clean: all # outputs | resources | all what to clean up before the job runs 
         container: "" # container to run this job inside
