@@ -1,5 +1,4 @@
 # Inspired by 
-
 # https://github.com/jcrist/alpine-dask-docker/blob/master/alpine-conda/Dockerfile
 # https://github.com/Docker-Hub-frolvlad/docker-alpine-glibc/blob/master/Dockerfile
 # https://jcrist.github.io/conda-docker-tips.html

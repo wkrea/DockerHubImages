@@ -1,5 +1,4 @@
 ## My Alpine from scratch
-##
 
 ## Build
 ## docker build -t alpine-busy-mini:3.10.3 .
