@@ -19,7 +19,7 @@ parameters:
 jobs:
   - ${{ each job in parameters.tareas }}: # Each job
       - job: ${{ job.job }} # Copy the job properties
-        displayName: ${{ job.jobname }}
+        displayName: ${{ job.name }}
         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
         - ${{ if job.dependsOn }}:
           - ${{ job.dependsOn }}
@@ -33,12 +33,12 @@ jobs:
           pool:
             vmImage: $(vmImage)
           steps:
-            - script: echo $(vmImage) -> building ${{ job.jobname }}
+            - script: echo $(vmImage) -> building ${{ job.name }}
             - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
               param:
                 serviceDockerHub: $(SERVICENAME_DOCKERHUB)
-                repository: $(DOCKERHUB_ACCOUNT)/${{ variables.ImageName }}
+                repository: $(DOCKERHUB_ACCOUNT)/${{ job.ImageName }}
                 dockerfile: ${{ job.dockerfile }}
                 buildContext: $(ALPINE_CONTEXT)
                 tags: ${{ job.tags }}
-            - script: echo $(vmImage) -> finish ${{ job.jobname }}
+            - script: echo $(vmImage) -> finish ${{ job.name }}
