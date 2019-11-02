@@ -60,7 +60,7 @@ resources:
   - repository: DockerHubImagesRepo      
     type: GitHub
     connection: wkreGitHubConnection
-    source: wkrea/DockerHubImages
+    name: wkrea/DockerHubImages
     ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
 
   containers:
