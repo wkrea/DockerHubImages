@@ -21,8 +21,8 @@ resources:
     ports: "80"
     volumes: ""
   
-resources:
-- repo: self
+# resources:
+# - repo: self
 
 
 stages:
