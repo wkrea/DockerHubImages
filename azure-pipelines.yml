@@ -118,7 +118,7 @@ stages:
       - script: echo hello
       - template: azure_templates/dockerhub_jobs.yml # Template reference
         parameters:
-          job:
+          tarea:
             name: "Building ${{ variables.ImageName }}"
             dockerfile: ${{ variables.Dockerfile }}
             buildContext: ${{ variables.BuildContext }}

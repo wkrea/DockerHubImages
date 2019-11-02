@@ -1,8 +1,8 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
 parameters:
-  jobs: { job }
+  tareas: { }
 
-jobs:
+tareas:
   - ${{ each job in parameters.tareas }}: # Each job
       - job: ${{ job.job }} # Copy the job properties
         displayName: ${{ job.name }}
