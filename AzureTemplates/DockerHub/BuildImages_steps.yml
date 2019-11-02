@@ -6,7 +6,7 @@ steps:
     displayName: Login to DockerHub
     inputs:
       command: login
-      containerRegistry: ${{ parameters.serviceDockerHub }}
+      containerRegistry: wallaskreaDockerHub
   - task: Docker@2
     displayName: Build and Push
     inputs:
@@ -19,7 +19,7 @@ steps:
   - task: Docker@2
     displayName: Logout of DockerHub
     inputs:
-      containerRegistry: ${{ parameters.serviceDockerHub }}
+      containerRegistry: wallaskreaDockerHub
       command: "logout"
 # - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
 #   param:

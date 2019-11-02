@@ -1,3 +1,7 @@
+
+# For test containers
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/service-containers?view=azure-devops&tabs=yaml#multiple-jobs
+
 ###########################################################################
 ##      RESOURCES # types: pipelines | repositories | containers | packages
 ###########################################################################
