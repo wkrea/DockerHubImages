@@ -55,10 +55,6 @@ schedules:
 ##      RESOURCES # types: pipelines | repositories | containers | packages
 ###########################################################################
 
-variables:
-  GITHUB_CONN: wkreaGitHubConnection
-  DOCKERHUB_CONN: wallaskreaDockerHub
-  
 resources:         
 
   repositories:
