@@ -14,10 +14,10 @@ variables:
   CANCELTIMEOUT: 1 
 
 parameters:
-  jobs: []
+  jobs: { job }
 
 jobs:
-  - ${{ each job in parameters.jobs }}: # Each job
+  - ${{ each job in parameters.tareas }}: # Each job
       - job: ${{ job.job }} # Copy the job properties
         displayName: ${{ job.jobname }}
         condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))

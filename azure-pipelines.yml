@@ -1,3 +1,6 @@
+# Inspired by
+# * https://github.com/microsoft/azure-pipelines-yaml/tree/master/design
+
 ###########################################################################
 ##                              TRIGGERS
 ###########################################################################
@@ -28,6 +31,7 @@ pr:
   paths:
     exclude:
     - README.md
+
 ###########################################################################
 ##                              SCHEDULES
 ###########################################################################
@@ -46,6 +50,26 @@ schedules:
     include:
     - releases/*
   always: true
+
+###########################################################################
+##      RESOURCES # types: pipelines | repositories | containers | packages
+###########################################################################
+resources:         
+
+  repositories:
+  - repository: DockerHubImagesRepo      
+    type: GitHub
+    connection: wkreGitHubConnection
+    source: wkrea/DockerHubImages
+    ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
+
+  containers:
+  - container: AlpineMini 
+    connection: wallaskreaDockerHub
+    image: wallaskrea/alpinemini:latest
+    env: {}
+    ports: "80"
+    volumes: ""
 
 ###########################################################################
 ##                              BUILD  STAGE
@@ -92,10 +116,11 @@ stages:
       steps:
       - template: azure_templates/dockerhub_jobs.yml # Template reference
         parameters:
-          job: "Build"
-            jobname: "Building ${{ ImageName }}"
+          job:
+            name: "Building ${{ ImageName }}"
             dockerfile: ${{ variables.Dockerfile }}
             tags: ${{ variables.Tags }}
+
 
 # https://github.com/alex/azure-pipelines-docker-test/blob/master/azure-pipelines.yml
 # # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=azure-devops
