@@ -115,13 +115,14 @@ stages:
         # pool:
         #   vmImage: $(variables.container)
       steps:
-      - template: azure_templates/dockerhub_jobs.yml # Template reference
-        parameters:
-          job:
-            name: "Building ${{ variables.ImageName }}"
-            dockerfile: ${{ variables.Dockerfile }}
-            buildContext: ${{ variables.BuildContext }}
-            tags: ${{ variables.Tags }}
+      - script: echo hello
+      # - template: azure_templates/dockerhub_jobs.yml # Template reference
+      #   parameters:
+      #     job:
+      #       name: "Building ${{ variables.ImageName }}"
+      #       dockerfile: ${{ variables.Dockerfile }}
+      #       buildContext: ${{ variables.BuildContext }}
+      #       tags: ${{ variables.Tags }}
 
 
 # https://github.com/alex/azure-pipelines-docker-test/blob/master/azure-pipelines.yml
