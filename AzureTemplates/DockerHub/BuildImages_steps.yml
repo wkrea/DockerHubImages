@@ -1,6 +1,7 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
 parameters:
   ImageName: ""
+  repoName: ""
   buildContext: "$(Build.SourcesDirectory)"
   tags: latest
 
@@ -14,7 +15,7 @@ steps:
     displayName: Build and Push ${{ parameters.ImageName }}
     inputs:
       command: buildAndPush
-      repository: ${{ parameters.ImageName }}/${{ parameters.ImageName }} #wallaskrea/alpinemini #
+      repository: ${{ parameters.repoName }}/${{ parameters.ImageName }} #wallaskrea/alpinemini #
       buildContext: ${{ parameters.buildContext }} #$(Build.SourcesDirectory)/Alpine #
       Dockerfile: ${{ parameters.buildContext }}/Dockerfile.${{ parameters.ImageName }} #/$(Build.SourcesDirectory)/Alpine/Dockerfile.${{ parameters.ImageName }} #${{ parameters.dockerfile }} #
       tags: |
