@@ -1,7 +1,7 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml
 parameters:
   name: ""
-  os: ""
+  serviceDockerHub: ""
 
 stages:
   - stage: Build
@@ -36,6 +36,7 @@ stages:
           - template: BuildImages_steps.yml # Template reference
             parameters:
               name: "Building ${{ variables.ImageName }}"
+              serviceDockerHub: $(parameters.serviceDockerHub)
               dockerfile: ${{ variables.Dockerfile }}
               buildContext: ${{ variables.BuildContext }}
               tags: ${{ variables.Tags }}

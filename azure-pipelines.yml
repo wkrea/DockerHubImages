@@ -1,8 +1,24 @@
-variables: # pipeline-level
-  MY_VAR: "my value"
-  ANOTHER_VAR: "another value"
+###########################################################################
+##      RESOURCES # types: pipelines | repositories | containers | packages
+###########################################################################
+resources:         
+  repositories:
+  - repository: DockerHubImagesRepo      
+    type: GitHub
+    endpoint: "wkreaGithub"
+    name: wkrea/DockerHubImages
+    ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
 
+  containers:
+  - container: AlpineMini 
+    endpoint: wallaskreaDockerHub
+    image: wallaskrea/alpinemini:latest
+    env: {}
+    ports: "80"
+    volumes: ""
+    
 stages:
   - template: AzureTemplates/DockerHub/BuildImages_jobs.yml
     parameters:
       name: Build DockerHub Images
+      serviceDockerHub: DockerHubImagesRepo
