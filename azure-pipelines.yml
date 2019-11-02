@@ -21,12 +21,43 @@
 #     ports: "80"
 #     volumes: ""
   
-resources:
-- repo: self
+# resources:
+# - repo: self
 
 
-stages:
-  - template: AzureTemplates/DockerHub/BuildImages_jobs.yml
-    parameters:
-      name: Build DockerHub Images
-      serviceDockerHub: "wkreaGithub"
+# stages:
+#   - template: AzureTemplates/DockerHub/BuildImages_jobs.yml
+#     parameters:
+#       name: Build DockerHub Images
+#       serviceDockerHub: "wkreaGithub"
+
+
+# resources:
+# - repo: self
+
+pool:
+  vmImage: 'Ubuntu-18.04'
+
+steps:
+
+- task: Docker@2
+  displayName: Login to Docker Hub
+  inputs:
+    command: login
+    containerRegistry: wallaskreaDockerHub
+- task: Docker@2
+  displayName: Build and Push
+  inputs:
+    command: buildAndPush
+    repository: wallaskrea/alpinemini
+    Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
+    tags: |
+      10.3.1
+      latest
+- script: |
+    docker images 
+- task: Docker@2
+  displayName: Login to wkreaDockerHub
+  inputs:
+    containerRegistry: 'wallaskreaDockerHub'
+    command: 'login'
