@@ -28,7 +28,7 @@ stages:
                 latest
         steps:
           - script: echo hello from Linux $(variables.ImageName) ${{ variables.ImageName }}
-          - template: AzureTemplates/DockerHub/BuildImages_steps.yml # Template reference
+          - template: BuildImages_steps.yml # Template reference
             parameters:
               tarea:
                 name: "Building ${{ variables.ImageName }}"
