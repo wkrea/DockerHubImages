@@ -35,11 +35,10 @@ stages:
           - script: echo hello from Linux $(variables.ImageName) ${{ variables.ImageName }}
           - template: BuildImages_steps.yml # Template reference
             parameters:
-              tarea:
-                name: "Building ${{ variables.ImageName }}"
-                dockerfile: ${{ variables.Dockerfile }}
-                buildContext: ${{ variables.BuildContext }}
-                tags: ${{ variables.Tags }}
+              name: "Building ${{ variables.ImageName }}"
+              dockerfile: ${{ variables.Dockerfile }}
+              buildContext: ${{ variables.BuildContext }}
+              tags: ${{ variables.Tags }}
       - job: Windows
         pool:
           vmImage: "vs2017-win2016"
