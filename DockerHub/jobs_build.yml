@@ -27,7 +27,7 @@ stages:
                 latest
         steps:
           - script: echo hello from Linux $(variables.ImageName) ${{ variables.ImageName }}
-          - template: azure_templates/dockerhub_jobs.yml # Template reference
+          - template: $(Build.SourcesDirectory)/azure_templates/dockerhub_jobs.yml # Template reference
             parameters:
               tarea:
                 name: "Building ${{ variables.ImageName }}"
