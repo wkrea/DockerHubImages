@@ -1,7 +1,6 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml
 parameters:
   name: ""
-  serviceDockerHub: ""
 
 stages:
   - stage: Build
@@ -37,7 +36,6 @@ stages:
             parameters:
               ImageName: $(ImageName)
               repoName: $(RepositoryName)
-              serviceDockerHub: $(parameters.serviceDockerHub)
               buildContext: $(BuildContext)
               tags: $(Tags)
       # - job: Windows
