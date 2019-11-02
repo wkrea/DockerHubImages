@@ -64,13 +64,13 @@ resources:
   repositories:
   - repository: DockerHubImagesRepo      
     type: GitHub
-    endpoint: ${{ variables.GITHUB_CONN }}
+    endpoint: $(variables.GITHUB_CONN)
     name: wkrea/DockerHubImages
     ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
 
   containers:
   - container: AlpineMini 
-    endpoint: ${{ variables.DOCKERHUB_CONN }}
+    endpoint: $(variables.DOCKERHUB_CONN)
     image: wallaskrea/alpinemini:latest
     env: {}
     ports: "80"
