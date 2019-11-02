@@ -21,15 +21,11 @@ resources:
     ports: "80"
     volumes: ""
   
-resources:
-- repo: self
-
-
 stages:
   - template: AzureTemplates/DockerHub/BuildImages_jobs.yml
     parameters:
       name: Build DockerHub Images
-      serviceDockerHub: "wkreaGithub"
+      serviceDockerHub: wallaskreaDockerHub
 
 
 # resources:
