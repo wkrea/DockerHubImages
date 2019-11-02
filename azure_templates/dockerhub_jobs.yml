@@ -2,7 +2,7 @@
 parameters:
   tareas: { }
 
-tareas:
+jobs:
   - ${{ each job in parameters.tareas }}: # Each job
       - job: ${{ job.job }} # Copy the job properties
         displayName: ${{ job.name }}
