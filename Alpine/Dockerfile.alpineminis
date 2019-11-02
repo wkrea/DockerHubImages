@@ -1,0 +1,18 @@
+## My Alpine from scratch
+
+## Build
+## docker build -t alpine-busy-mini:3.10.3 .
+
+## Run
+## docker run -d --env-file=.env_MiniAlpine alpine-busy-mini:3.10.3 alpine-mini
+
+## Referenced from
+##  https://www.wezm.net/technical/2019/02/alpine-linux-docker-infrastructure/
+
+FROM scratch
+
+ENV ALPINE_ARCH x86_64
+ENV ALPINE_VERSION 3.10.3
+
+ADD alpine-minirootfs-${ALPINE_VERSION}-${ALPINE_ARCH}.tar.gz /
+CMD ["/bin/sh"]
