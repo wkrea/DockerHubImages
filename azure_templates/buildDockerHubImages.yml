@@ -13,18 +13,18 @@ steps:
     displayName: Login to DockerHub
     inputs:
       command: login
-      containerRegistry: ${{ param.serviceDockerHub }}
+      containerRegistry: wallaskreaDockerHub # ${{ param.serviceDockerHub }}
   - task: Docker@2
     displayName: Build and Push
     inputs:
       command: buildAndPush
       repository: wallaskrea/alpinemini #${{ param.repository }}
-      buildContext: ${{ param.buildContext }}
-      Dockerfile: ${{ param.dockerfile }} # $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
+      buildContext: $(Build.SourcesDirectory)/Alpine #${{ param.buildContext }}
+      Dockerfile: Dockerfile.alpinemini #${{ param.dockerfile }} # $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
       tags: |
         $(tags)
   - task: Docker@2
     displayName: Logout of DockerHub
     inputs:
-      containerRegistry: ${{ param.serviceDockerHub }}
+      containerRegistry: wallaskreaDockerHub #${{ param.serviceDockerHub }}
       command: "logout"
