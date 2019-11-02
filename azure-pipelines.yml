@@ -56,21 +56,21 @@ schedules:
 ###########################################################################
 
 variables:
-  GITHUB_CONN: "wkreaGithub"
-  DOCKERHUB_CONN: "wallaskreaDockerHub"
+  GITHUB_CONN: ""
+  DOCKERHUB_CONN: ""
 
 resources:         
 
   repositories:
   - repository: DockerHubImagesRepo      
     type: GitHub
-    endpoint: $GITHUB_CONN
+    endpoint: "wkreaGithub"
     name: wkrea/DockerHubImages
     ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
 
   containers:
   - container: AlpineMini 
-    endpoint: $DOCKERHUB_CONN
+    endpoint: wallaskreaDockerHub
     image: wallaskrea/alpinemini:latest
     env: {}
     ports: "80"
