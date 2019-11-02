@@ -1,6 +1,5 @@
 # Inspired by
 # * https://github.com/microsoft/azure-pipelines-yaml/tree/master/design
-
 ###########################################################################
 ##                              TRIGGERS
 ###########################################################################
@@ -54,10 +53,6 @@ schedules:
 ###########################################################################
 ##      RESOURCES # types: pipelines | repositories | containers | packages
 ###########################################################################
-
-variables:
-  GITHUB_CONN: ""
-  DOCKERHUB_CONN: ""
 
 resources:         
 
