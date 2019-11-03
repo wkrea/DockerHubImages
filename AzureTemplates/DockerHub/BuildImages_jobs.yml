@@ -16,12 +16,6 @@ stages:
         timeoutInMinutes: 30 # how long to run the job before automatically cancelling
         cancelTimeoutInMinutes: 2 # how much time to give 'run always even if cancelled tasks' before killing them
 
-        #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
-        - ${{ if and(succeeded(), eq($(Dependencia), '')) }}:
-          dependsOn: $(Dependencia)
-        - {{ else }}
-          dependsOn: $(Dependencia)
-
         strategy:
           matrix:
             AlpineMini:
@@ -41,6 +35,12 @@ stages:
               Tags: |
                 3.10.3
                 latest
+        
+        #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
+        - ${{ if and(succeeded(), eq($(Dependencia), '')) }}:
+          dependsOn: $(Dependencia)
+        - {{ else }}
+          dependsOn: $(Dependencia)
         steps:
           - script: echo hello from Linux $(ImageName) $(ImageName)
           - template: BuildImages_steps.yml # Template reference
