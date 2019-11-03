@@ -16,10 +16,9 @@ stages:
         timeoutInMinutes: 30 # how long to run the job before automatically cancelling
         cancelTimeoutInMinutes: 2 # how much time to give 'run always even if cancelled tasks' before killing them
 
-        #https://github.com/microsoft/azure-pipelines-yaml/blob/master/design/variables.md
-        # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml
-        # - ${{ if eq($(Dependencia), 'true') }}:
-        #   dependsOn: alpineminiglib
+        #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
+        - ${{ if ne($(Dependencia), '')}}:
+          dependsOn: $(Dependencia)
 
         strategy:
           matrix:
