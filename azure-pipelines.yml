@@ -32,6 +32,8 @@ stages:
           macOS-10.13
   - stage: QA
     dependsOn: Build
+  - stage: Testing
+    dependsOn: Build
   - stage: Deploy
     dependsOn: 
     - QA
