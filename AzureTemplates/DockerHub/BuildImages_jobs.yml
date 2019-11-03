@@ -6,10 +6,10 @@ parameters:
 
 stages:
   - stage: Build
-    displayName: Build for
+    displayName: ${{ parameters.name }}
 
     jobs:
-      - job: $(ImageName)
+      - job:
         pool: ${{ parameters.pool }} #"ubuntu-16.04"
         workspace:
           clean: all # outputs | resources | all what to clean up before the job runs
@@ -48,13 +48,3 @@ stages:
               buildContext: $(BuildContext)
               DockerhubConn: $(DockerHubAccout)
               tags: $(Tags)
-      # - job: Windows
-      #   pool:
-      #     vmImage: "vs2017-win2016"
-      #   steps:
-      #     - script: echo hello from Windows
-      # - job: macOS
-      #   pool:
-      #     vmImage: "macOS-10.13"
-      #   steps:
-      #     - script: echo hello from macOS
