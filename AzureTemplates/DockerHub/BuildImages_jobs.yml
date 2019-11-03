@@ -17,7 +17,9 @@ stages:
         cancelTimeoutInMinutes: 2 # how much time to give 'run always even if cancelled tasks' before killing them
 
         #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
-        - ${{ if ne($(Dependencia), '')}}:
+        - ${{ if and(succeeded(), eq($(Dependencia), '')) }}:
+          dependsOn: $(Dependencia)
+        - {{ else }}
           dependsOn: $(Dependencia)
 
         strategy:
