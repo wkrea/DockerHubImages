@@ -22,9 +22,20 @@ resources:
     volumes: ""
   
 stages:
-  - template: AzureTemplates/DockerHub/BuildImages_jobs.yml
+  - template: AzureTemplates/DockerHub/BuildImages_jobs.yml #Build
     parameters:
       name: Build DockerHub Images
+      pool:
+        vmImage: 
+          ubuntu-latest
+          vs2017-win2016
+          macOS-10.13
+  - stage: QA
+    dependsOn: Build
+  - stage: Deploy
+    dependsOn: 
+    - QA
+    - Testing
 
 # resources:
 # - repo: self

@@ -2,6 +2,7 @@
 parameters:
   ImageName: ""
   repoName: ""
+  DockerhubConn: ""
   buildContext: "$(Build.SourcesDirectory)"
   tags: latest
 
@@ -13,7 +14,7 @@ steps:
       repository: ${{ parameters.repoName }}/${{ parameters.ImageName }} #wallaskrea/alpinemini #
       buildContext: ${{ parameters.buildContext }} #$(Build.SourcesDirectory)/Alpine #
       Dockerfile: ${{ parameters.buildContext }}/Dockerfile.${{ parameters.ImageName }} #/$(Build.SourcesDirectory)/Alpine/Dockerfile.${{ parameters.ImageName }} #${{ parameters.dockerfile }} #
-      containerRegistry: wallaskreaDockerHub
+      containerRegistry: ${{ parameters.DockerhubConn }} #wallaskreaDockerHub
       tags: |
         $(tags)
 

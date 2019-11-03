@@ -1,34 +1,44 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
 parameters:
   name: ""
+  pool: {}
 
 stages:
   - stage: Build
     displayName: Build for
+
     jobs:
-      - job: Linux
+      - job: $(ImageName)
         pool:
-          vmImage: "ubuntu-16.04"
+          vmImage: ${{ parameters.pool }} #"ubuntu-16.04"
         workspace:
           clean: all # outputs | resources | all what to clean up before the job runs
         timeoutInMinutes: 30 # how long to run the job before automatically cancelling
         cancelTimeoutInMinutes: 2 # how much time to give 'run always even if cancelled tasks' before killing them
 
+        #https://github.com/microsoft/azure-pipelines-yaml/blob/master/design/variables.md
+        # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml
+        # - ${{ if eq($(Dependencia), 'true') }}:
+        #   dependsOn: alpineminiglib
+
         strategy:
           matrix:
-            # AlpineMini:
-            #   ImageName: "alpinemini"
-            #   RepositoryName: wallaskrea
-            #   BuildContext: ./Alpine
-            #   Tags: |
-            #     10.3.1
-            #     latest
-            AlpineMiniGLIB:
-              ImageName: "alpineminiglib"
+            AlpineMini:
+              ImageName: alpinemini #Dockerfile.alpinemini
               RepositoryName: wallaskrea
               BuildContext: Alpine
               Tags: |
-                10.3.1
+                3.10.3
+                latest
+            AlpineMiniGLIB:
+              Dependencia: alpinemini
+              ImageName: alpineminiglib
+              RepositoryName: wallaskrea
+              BuildContext: Alpine
+              DockerHubAccout: wallaskreaDockerHub
+              Tags: |
+                3.10.3
                 latest
         steps:
           - script: echo hello from Linux $(ImageName) $(ImageName)
@@ -37,6 +47,7 @@ stages:
               ImageName: $(ImageName)
               repoName: $(RepositoryName)
               buildContext: $(BuildContext)
+              DockerhubConn: $(DockerHubAccout)
               tags: $(Tags)
       # - job: Windows
       #   pool:

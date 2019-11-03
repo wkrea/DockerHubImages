@@ -12,8 +12,8 @@
 
 ## Execution:
 
-# FROM wkrea/wkrea/alpine_glib:latest
-FROM wkrea/alpine-busy-mini:3.10.3
+# FROM wallaskrea/alpine_glib:latest
+FROM wallaskrea/alpinemini:3.10.3
 
 MAINTAINER William Trigos <william.trigos@gmail.com>
 
