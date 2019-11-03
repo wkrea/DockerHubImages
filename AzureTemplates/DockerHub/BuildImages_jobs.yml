@@ -37,10 +37,9 @@ stages:
                 latest
         
         #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
-        - ${{ if and(succeeded(), eq($(Dependencia), '')) }}:
+        - ${{ if ($(Dependencia)) }}:
           dependsOn: $(Dependencia)
-        - {{ else }}
-          dependsOn: $(Dependencia)
+          
         steps:
           - script: echo hello from Linux $(ImageName) $(ImageName)
           - template: BuildImages_steps.yml # Template reference
