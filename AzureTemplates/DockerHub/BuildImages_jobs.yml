@@ -25,6 +25,7 @@ stages:
         strategy:
           matrix:
             AlpineMini:
+              Dependencia : ''
               ImageName: alpinemini #Dockerfile.alpinemini
               RepositoryName: wallaskrea
               BuildContext: Alpine
