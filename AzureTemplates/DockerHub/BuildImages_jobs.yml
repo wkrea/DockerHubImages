@@ -10,8 +10,7 @@ stages:
 
     jobs:
       - job: $(ImageName)
-        pool:
-          vmImage: ${{ parameters.pool }} #"ubuntu-16.04"
+        pool: ${{ parameters.pool }} #"ubuntu-16.04"
         workspace:
           clean: all # outputs | resources | all what to clean up before the job runs
         timeoutInMinutes: 30 # how long to run the job before automatically cancelling
