@@ -21,15 +21,16 @@ resources:
     ports: "80"
     volumes: ""
   
+# win1803
+# vs2017-win2016
+# macOS-10.13
 stages:
   - template: AzureTemplates/DockerHub/BuildImages_jobs.yml #Build
     parameters:
       name: Build DockerHub Images
       pool:
-        vmImage: 
-          - ubuntu-latest
-          - vs2017-win2016
-          - macOS-10.13
+        vmImage: ubuntu-latest
+
   - stage: QA
     dependsOn: Build
   - stage: Testing
