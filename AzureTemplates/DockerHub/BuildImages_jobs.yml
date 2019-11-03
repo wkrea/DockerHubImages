@@ -19,7 +19,7 @@ stages:
         strategy:
           matrix:
             AlpineMini:
-              Dependencia : ''
+              Dependencia: ""
               ImageName: alpinemini #Dockerfile.alpinemini
               RepositoryName: wallaskrea
               BuildContext: Alpine
@@ -35,11 +35,11 @@ stages:
               Tags: |
                 3.10.3
                 latest
-        
-        #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
-        - ${{ if ($(Dependencia)) }}:
-          dependsOn: $(Dependencia)
-          
+
+        # #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
+        # - ${{ if ($(Dependencia)) }}:
+        #   dependsOn: $(Dependencia)
+
         steps:
           - script: echo hello from Linux $(ImageName) $(ImageName)
           - template: BuildImages_steps.yml # Template reference
