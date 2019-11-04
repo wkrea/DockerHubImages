@@ -48,9 +48,10 @@ RUN rm /var/cache/apk/*
 WORKDIR /app
 
 # add asciidoctor hack
-# COPY asciidoctor /app/asciidoctor
-RUN   echo "#!/bin/bash \n" > /app/asciidoctor && \
-  echo "/usr/local/bin/asciidoctor -r asciidoctor-html5s -b html5s -r asciidoctor-diagram "$@"" >> /app/asciidoctor && \
-  chmod +x ./app/asciidoctor
+COPY asciidoctor /app/asciidoctor
+# https://blog.anoff.io/2019-02-17-hugo-render-asciidoc/
+# RUN   echo "#!/bin/bash \n" > /app/asciidoctor && \
+#   echo "/usr/local/bin/asciidoctor -r asciidoctor-html5s -b html5s -r asciidoctor-diagram "$@"" >> /app/asciidoctor && \
+#   chmod +x ./app/asciidoctor
 
 ENV PATH "/app:${PATH}"
