@@ -18,30 +18,38 @@ stages:
 
         strategy:
           matrix:
-            AlpineMini:
+            # AlpineMini:
+            #   Dependencia: ""
+            #   ImageName: alpinemini #Dockerfile.alpinemini
+            #   RepositoryName: wallaskrea
+            #   BuildContext: Alpine
+            #   Tags: |
+            #     3.10.3
+            #     latest
+            # AlpineMiniGLIB:
+            #   Dependencia: alpinemini
+            #   ImageName: alpineminiglib
+            #   RepositoryName: wallaskrea
+            #   BuildContext: Alpine
+            #   DockerHubAccout: wallaskreaDockerHub
+            #   Tags: |
+            #     3.10.3
+            #     latest
+            AlpineAsciidoctor:
               Dependencia: ""
-              ImageName: alpinemini #Dockerfile.alpinemini
+              ImageName: alpine_asciidoctor
               RepositoryName: wallaskrea
-              BuildContext: Alpine
-              Tags: |
-                3.10.3
-                latest
-            AlpineMiniGLIB:
-              Dependencia: alpinemini
-              ImageName: alpineminiglib
-              RepositoryName: wallaskrea
-              BuildContext: Alpine
+              BuildContext: asciidoctor
               DockerHubAccout: wallaskreaDockerHub
               Tags: |
-                3.10.3
+                3.10
                 latest
-
         # #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
         # - ${{ if ($(Dependencia)) }}:
         #   dependsOn: $(Dependencia)
 
         steps:
-          - script: echo hello from Linux $(ImageName) $(ImageName)
+          - script: echo hello from Linux
           - template: BuildImages_steps.yml # Template reference
             parameters:
               ImageName: $(ImageName)
