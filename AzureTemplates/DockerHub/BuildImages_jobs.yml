@@ -37,9 +37,9 @@ stages:
             #     latest
             AlpineAsciidoctor:
               Dependencia: ""
-              ImageName: alpine_asciidoctor
+              ImageName: alpine_hugo_asciidoctor
               RepositoryName: wallaskrea
-              BuildContext: asciidoctor
+              BuildContext: hugo_asciidoctor
               DockerHubAccout: wallaskreaDockerHub
               Tags: |
                 3.10
