@@ -99,7 +99,7 @@ stages:
 
         steps:
           - script: echo hello from Linux
-          - template: BuildImages_steps.yml # Template reference
+          - template: AzureTemplates/DockerHub/BuildImages_steps.yml # Template reference
             parameters:
               ImageName: $(ImageName)
               DockerhubConn: ${variables.DockerHubAccout}
