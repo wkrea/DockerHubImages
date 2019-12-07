@@ -9,6 +9,8 @@
 ###########################################################################
 trigger:
   branches:
+    include:
+    - refs/tags/{test}
     exclude:
     - '*'
   paths:
