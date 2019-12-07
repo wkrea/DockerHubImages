@@ -28,6 +28,8 @@ pr:
   autoCancel: true
   branches:
     include:
+      - bug-fix/*
+      - feat/*
       - azure_templates/*
     exclude:
       - master
