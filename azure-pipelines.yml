@@ -28,7 +28,7 @@ pr:
   autoCancel: true
   branches:
     include:
-      - refs/tags/{test}
+      - azure_templates/*
     exclude:
       - master
       - releases/*
