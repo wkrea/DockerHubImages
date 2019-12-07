@@ -59,39 +59,120 @@ resources:
     ports: "80"
     volumes: ""
     
+variables:
+  DockerHubAccout: wallaskreaDockerHub
+  RepositoryName: wallaskrea ## equivalent to My DockerHub Organization
+  buildContext: "$(Build.SourcesDirectory)"
+
 stages:
-  - template: AzureTemplates/DockerHub/BuildImages_jobs.yml #Build
-    parameters:
-      name: Build DockerHub Images
-      pool:
-        vmImage: ubuntu-latest
-  - stage: Testing
-    # dependsOn: Build
+  - stage: 
     jobs:
+      - job: 
+        displayName: Build Images
+        pool: 
+          vmImage: ubuntu-latest
+        workspace:
+          clean: all # outputs | resources | all what to clean up before the job runs
+        timeoutInMinutes: 30 # how long to run the job before automatically cancelling
+        cancelTimeoutInMinutes: 2 # how much time to give 'run always even if cancelled tasks' before killing them
+
+        strategy:
+          matrix:
+            AlpineMini:
+              Dependencia: ""
+              ImageName: alpinemini #Dockerfile.alpinemini
+              # RepositoryName: wallaskrea ## equivalent to My DockerHub Organization
+              BuildContext: Alpine
+              Tags: |
+                3.10.3
+                latest
+            
+            AlpineMiniGLIB:
+              Dependencia: alpinemini
+              ImageName: alpineminiglib
+              # RepositoryName: wallaskrea
+              BuildContext: Alpine
+              # DockerHubAccout: wallaskreaDockerHub
+              Tags: |
+                3.10.3
+                latest
+
+        steps:
+          - script: echo hello from Linux
+          - template: BuildImages_steps.yml # Template reference
+            parameters:
+              ImageName: $(ImageName)
+              DockerhubConn: ${variables.DockerHubAccout}
+              repoName: ${variables.RepositoryName}
+              buildContext: $(BuildContext)
+              tags: $(Tags)
+
       - job:
         strategy:
           matrix:
             UbuntuLatest:
-              vmImage:  windows-latest
+              vmImage:  ubuntu-latest
             WinLatest:
               vmImage:  windows-latest
     
+        # Idea de como testear una imagen docker luego de construir
+        # https://pythonspeed.com/articles/test-your-docker-build/
         displayName: Test on  
         steps:
-          - script: |
-              echo "Building $(vmImage)
-              echo "hello" >> test.txt
-            displayName: Critical Tests!!!
-          - script: dir
-            workingDirectory: $(Agent.BuildDirectory)
-            displayName: List contents of a folder
+          #################################################
+          # Como Build pipelines Switch based on platform 
+          # guiado de aqui https://tinyurl.com/sjtoh4t
 
-  # - stage: QA
-  #     dependsOn: Build    
-  # - stage: Deploy
-  #   dependsOn: 
-  #   - QA
-  #   - Testing
+          # Windows
+          - powershell: |
+              $selectedDockerImages = (docker images --all $(ImageName) --quiet);
+              if ($selectedDockerImages.Count -gt 0) 
+              {
+                foreach ($DockerImage in $selectedDockerImages)
+                {
+                  docker images -q $DockerImage
+                  Write-Host ($DockerImage + " image was found") -ForegroundColor Green
+                }
+              }
+              else 
+              {
+                # show mesage that docker image does not exist
+                Write-Host ($(ImageName) + " image not exists")  -ForegroundColor Red
+              }
+            condition: eq( variables['Agent.OS'], 'Windows_NT' )
+            displayName: Test on Windows
+
+          # Ubuntu
+          - bash: |
+              docker images ls && \
+              if [[ "$(docker images -q $(ImageName):$(Tags) 2> /dev/null)" == "" ]]; then
+                docker images $(ImageName):$(Tags)
+              else
+                echo 'Error, $(ImageName) not exits'
+              fi
+            condition: eq( variables['Agent.OS'], 'Linux' )
+            displayName: Test on Linux
+
+          # # macOS
+          # - bash: |
+          #     export IPADDR=$(ifconfig | grep 'en0' -A3 | tail -n1 | awk '{print $2}')
+          #     echo "##vso[task.setvariable variable=IP_ADDR]$IPADDR"
+          #   condition: eq( variables['Agent.OS'], 'Darwin' )
+          #   displayName: Get IP on macOS
+
+      # - job:
+      #   displayName : Push Images to DockerHub
+      #   pool:
+      #     vmImage: ubuntu-latest
+      #   steps:
+      #   - template: AzureTemplates/DockerHub/PushImages2DockerHub.yml
+      #     parameters:
+      #       serviceDockerHub: "" # defaults for any parameters that aren't specified
+      #       repository: ""
+      #       vmImage: ""
+      #       dockerfile: ""
+      #       buildContext: ""
+      #       tags: ""
 
 
 # ------------------------------------------------------------- OLD!!!
