@@ -66,7 +66,7 @@ stages:
       pool:
         vmImage: ubuntu-latest
   - stage: Testing
-    dependsOn: Build
+    # dependsOn: Build
     jobs:
       - job:
         strategy:
@@ -76,12 +76,12 @@ stages:
             WinLatest:
               vmImage:  windows-latest
     
-        displayName: Test from $(vmImage)
+        displayName: Test on  
         steps:
           - script: |
-              echo "Building ${{ variables.ImageName }}"
+              echo "Building $(vmImage)
               echo "hello" >> test.txt
-            displayName: Building ${{ variables.vmImage }}
+            displayName: Critical Tests!!!
           - script: dir
             workingDirectory: $(Agent.BuildDirectory)
             displayName: List contents of a folder
