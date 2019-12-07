@@ -26,15 +26,15 @@ stages:
               Tags: |
                 3.10.3
                 latest
-            # AlpineMiniGLIB:
-            #   Dependencia: alpinemini
-            #   ImageName: alpineminiglib
-            #   RepositoryName: wallaskrea
-            #   BuildContext: Alpine
-            #   DockerHubAccout: wallaskreaDockerHub
-            #   Tags: |
-            #     3.10.3
-            #     latest
+            AlpineMiniGLIB:
+              Dependencia: alpinemini
+              ImageName: alpineminiglib
+              RepositoryName: wallaskrea
+              BuildContext: Alpine
+              DockerHubAccout: wallaskreaDockerHub
+              Tags: |
+                3.10.3
+                latest
             # AlpineAsciidoctor:
             #   Dependencia: ""
             #   ImageName: alpine_hugo_asciidoctor
