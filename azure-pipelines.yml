@@ -1,45 +1,6 @@
 # For test containers
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/service-containers?view=azure-devops&tabs=yaml#multiple-jobs
 
-# Inspired by
-# * https://github.com/microsoft/azure-pipelines-yaml/tree/master/design
-###########################################################################
-##                              TRIGGERS
-###########################################################################
-trigger:
-  branches:
-    include:
-    - refs/tags/{test}
-    exclude:
-    - '*'
-  paths:
-    exclude:
-    - README.md
-    - AzureTemplates/*
-  tags:
-    include:
-    - v*
-    exclude:
-    - v2.0
-###########################################################################
-##                              PR's
-###########################################################################
-# pr:
-#   autoCancel: true
-#   branches:
-#     include:
-#       - bug-fix/*
-#       - feat/*
-#       - azure_templates/*
-#     exclude:
-#       - master
-#       - releases/*
-#   paths:
-#     exclude:
-#     - README.md
-#     - AzureTemplates/*
-
-
 ###########################################################################
 ##      RESOURCES # types: pipelines | repositories | containers | packages
 ###########################################################################
@@ -49,12 +10,32 @@ resources:
     type: GitHub
     endpoint: "wkreaGithub"
     name: wkrea/DockerHubImages
-    ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
+    # ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
+
+    # Inspired by
+    # * https://github.com/microsoft/azure-pipelines-yaml/tree/master/design
+    ###########################################################################
+    ##                              TRIGGERS
     trigger:
-      #https://github.com/microsoft/azure-pipelines-yaml/blob/master/design/pipeline-triggers.md
+      # https://github.com/microsoft/azure-pipelines-yaml/blob/master/design/pipeline-triggers.md
+      # https://dzone.com/articles/build-pipeline-triggers-using-azure-devopscicd
       batch: true
-      exclude:
+      branches:
+        include:
+        - refs/tags/{test}
+        exclude:
         - '*'
+      paths:
+        exclude:
+        - README.md
+        - AzureTemplates/*
+      tags:
+        include:
+        - v*
+        exclude:
+        - v2.0
+    ###########################################################################
+    ##                              PR's
     pr:
       autoCancel: true
       branches:
@@ -83,7 +64,10 @@ stages:
     parameters:
       name: Build DockerHub Images
       pool:
-        vmImage: ubuntu-latest
+        vmImage: 
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
 
   - stage: QA
     dependsOn: Build
