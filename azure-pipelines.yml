@@ -26,9 +26,10 @@ trigger:
 ##                              PR's
 ###########################################################################
 pr:
+  autoCancel: true
   branches:
     include:
-      - '*'
+      - refs/tags/{test}
     exclude:
       - master
       - releases/*
