@@ -2,6 +2,41 @@
 # For test containers
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/service-containers?view=azure-devops&tabs=yaml#multiple-jobs
 
+# Inspired by
+# * https://github.com/microsoft/azure-pipelines-yaml/tree/master/design
+###########################################################################
+##                              TRIGGERS
+###########################################################################
+trigger:
+  branches:
+    include:
+    - '*'
+    exclude:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - AzureTemplates/*
+  tags:
+    include:
+    - v*
+    exclude:
+    - v2.0
+###########################################################################
+##                              PR's
+###########################################################################
+pr:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - master
+      - releases/*
+  paths:
+    exclude:
+    - README.md
+    - AzureTemplates/*
+
 ###########################################################################
 ##      RESOURCES # types: pipelines | repositories | containers | packages
 ###########################################################################
@@ -33,12 +68,14 @@ stages:
 
   - stage: QA
     dependsOn: Build
-  - stage: Testing
-    dependsOn: Build
-  - stage: Deploy
-    dependsOn: 
-    - QA
-    - Testing
+  # - stage: Testing
+  #   dependsOn: Build
+  # - stage: Deploy
+  #   dependsOn: 
+  #   - QA
+  #   - Testing
+
+# ------------------------------------------------------------- OLD!!!
 
 # resources:
 # - repo: self
