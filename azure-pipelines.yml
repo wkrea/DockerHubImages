@@ -24,20 +24,20 @@ trigger:
 ###########################################################################
 ##                              PR's
 ###########################################################################
-pr:
-  autoCancel: true
-  branches:
-    include:
-      - bug-fix/*
-      - feat/*
-      - azure_templates/*
-    exclude:
-      - master
-      - releases/*
-  paths:
-    exclude:
-    - README.md
-    - AzureTemplates/*
+# pr:
+#   autoCancel: true
+#   branches:
+#     include:
+#       - bug-fix/*
+#       - feat/*
+#       - azure_templates/*
+#     exclude:
+#       - master
+#       - releases/*
+#   paths:
+#     exclude:
+#     - README.md
+#     - AzureTemplates/*
 
 
 ###########################################################################
@@ -50,6 +50,25 @@ resources:
     endpoint: "wkreaGithub"
     name: wkrea/DockerHubImages
     ref: 'refs/heads/master'  # ref name to use, defaults to 'refs/heads/master'
+    trigger:
+      #https://github.com/microsoft/azure-pipelines-yaml/blob/master/design/pipeline-triggers.md
+      batch: true
+      include:
+        - master
+    pr:
+      autoCancel: true
+      branches:
+        include:
+          - bug-fix/*
+          - feat/*
+          - azure_templates/*
+        exclude:
+          - master
+          - releases/*
+      paths:
+        exclude:
+        - README.md
+        - AzureTemplates/*
 
   containers:
   - container: AlpineMini 
