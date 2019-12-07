@@ -102,7 +102,7 @@ stages:
           - template: AzureTemplates/DockerHub/BuildImages_steps.yml # Template reference
             parameters:
               ImageName: $( ImageName )
-              DockerhubConn: $( variables.DockerHubAccout )
+              DockerhubConn: ${ variables.DockerHubAccout }
               repoName: ${ variables.RepositoryName }
               buildContext: $(BuildContext)
               tags: $(Tags)
