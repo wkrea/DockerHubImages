@@ -53,8 +53,8 @@ resources:
     trigger:
       #https://github.com/microsoft/azure-pipelines-yaml/blob/master/design/pipeline-triggers.md
       batch: true
-      include:
-        - master
+      exclude:
+        - '*'
     pr:
       autoCancel: true
       branches:
