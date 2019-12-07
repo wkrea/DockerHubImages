@@ -10,7 +10,7 @@
 trigger:
   branches:
     exclude:
-    - master
+    - '*'
   paths:
     exclude:
     - README.md
