@@ -87,6 +87,7 @@ stages:
 
   - stage: QA
     dependsOn: Build
+    
   # - stage: Testing
   #   dependsOn: Build
   # - stage: Deploy
