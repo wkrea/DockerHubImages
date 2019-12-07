@@ -1,4 +1,3 @@
-
 # For test containers
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/service-containers?view=azure-devops&tabs=yaml#multiple-jobs
 
@@ -37,6 +36,7 @@ pr:
     - README.md
     - AzureTemplates/*
 
+
 ###########################################################################
 ##      RESOURCES # types: pipelines | repositories | containers | packages
 ###########################################################################
@@ -55,10 +55,7 @@ resources:
     env: {}
     ports: "80"
     volumes: ""
-  
-# win1803
-# vs2017-win2016
-# macOS-10.13
+    
 stages:
   - template: AzureTemplates/DockerHub/BuildImages_jobs.yml #Build
     parameters:
