@@ -64,20 +64,35 @@ stages:
     parameters:
       name: Build DockerHub Images
       pool:
-        vmImage: 
-          - ubuntu-latest
-          - macOS-latest
-          - windows-latest
-
-  - stage: QA
+        vmImage: ubuntu-latest
+  - stage: Testing
     dependsOn: Build
+    jobs:
+      - job:
+        strategy:
+          matrix:
+            UbuntuLatest:
+              vmImage:  windows-latest
+            WinLatest:
+              vmImage:  windows-latest
     
-  # - stage: Testing
-  #   dependsOn: Build
+        displayName: Test from $(vmImage)
+        steps:
+          - script: |
+              echo "Building ${{ variables.ImageName }}"
+              echo "hello" >> test.txt
+            displayName: Building ${{ variables.vmImage }}
+          - script: dir
+            workingDirectory: $(Agent.BuildDirectory)
+            displayName: List contents of a folder
+
+  # - stage: QA
+  #     dependsOn: Build    
   # - stage: Deploy
   #   dependsOn: 
   #   - QA
   #   - Testing
+
 
 # ------------------------------------------------------------- OLD!!!
 
