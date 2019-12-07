@@ -40,9 +40,9 @@ resources:
       autoCancel: true
       branches:
         include:
-          - bug-fix/*
           - feat/*
           - azure_templates/*
+          # - bug-fix/*
         exclude:
           - master
           - releases/*
