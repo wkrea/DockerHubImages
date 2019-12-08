@@ -1,0 +1,23 @@
+##
+## Pasos para construir las imagenes DockerHub
+param:
+  serviceDockerHub: "" # defaults for any parameters that aren't specified
+  repository: ""
+  vmImage: ""
+  dockerfile: ""
+  buildContext: ""
+  tags: ""
+
+steps:
+  - task: Docker@2
+    displayName: Login to DockerHub
+    inputs:
+      command: login
+      containerRegistry: ${{ param.serviceDockerHub }}
+  - task: Docker@2
+    inputs:
+      command: "push"
+      repository: ${{ param.repository }} #wallaskrea/alpinemini #
+      containerRegistry: ${{ param.serviceDockerHub }}
+      tags: |
+        $(tags)

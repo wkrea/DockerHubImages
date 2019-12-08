@@ -1,0 +1,59 @@
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
+parameters:
+  name: ""
+  pool: {}
+
+stages:
+  - stage: Build
+    displayName: ${{ parameters.name }}
+
+    jobs:
+      - job:
+        pool: ${{ parameters.pool }} #"ubuntu-16.04"
+        workspace:
+          clean: all # outputs | resources | all what to clean up before the job runs
+        timeoutInMinutes: 30 # how long to run the job before automatically cancelling
+        cancelTimeoutInMinutes: 2 # how much time to give 'run always even if cancelled tasks' before killing them
+
+        strategy:
+          matrix:
+            AlpineMini:
+              Dependencia: ""
+              ImageName: alpinemini #Dockerfile.alpinemini
+              RepositoryName: wallaskrea ## equivalent to My DockerHub Organization
+              BuildContext: Alpine
+              Tags: |
+                3.10.3
+                latest
+            # AlpineMiniGLIB:
+            #   Dependencia: alpinemini
+            #   ImageName: alpineminiglib
+            #   RepositoryName: wallaskrea
+            #   BuildContext: Alpine
+            #   DockerHubAccout: wallaskreaDockerHub
+            #   Tags: |
+            #     3.10.3
+            #     latest
+            # AlpineAsciidoctor:
+            #   Dependencia: ""
+            #   ImageName: alpine_hugo_asciidoctor
+            #   RepositoryName: wallaskrea
+            #   BuildContext: hugo_asciidoctor
+            #   DockerHubAccout: wallaskreaDockerHub
+            #   Tags: |
+            #     3.10
+            #     latest
+        # #https://stackoverflow.com/questions/56875665/how-to-deal-with-null-for-custom-condition-in-azure-pipeline
+        # - ${{ if ($(Dependencia)) }}:
+        #   dependsOn: $(Dependencia)
+
+        steps:
+          - script: echo hello from Linux
+          - template: BuildImages_steps.yml # Template reference
+            parameters:
+              ImageName: $(ImageName)
+              repoName: $(RepositoryName)
+              buildContext: $(BuildContext)
+              DockerhubConn: wallaskreaDockerHub #$(DockerHubAccout)
+              tags: $(Tags)
