@@ -40,9 +40,9 @@ resources:
       autoCancel: true
       branches:
         include:
-          - bug-fix/*
           - feat/*
           - azure_templates/*
+          # - bug-fix/*
         exclude:
           - master
           - releases/*
@@ -145,10 +145,10 @@ stages:
           # Ubuntu
           - bash: |
               docker images ls && \
-              if [[ "$(docker images -q $(ImageName):$(Tags) 2> /dev/null)" == "" ]]; then
-                docker images $(ImageName):$(Tags)
+              if [[ "$(docker images -q ${ImageName}:${Tags} 2> /dev/null)" == "" ]]; then
+                docker images ${ImageName}
               else
-                echo 'Error, $(ImageName) not exits'
+                echo 'Error, ${ImageName} not exits'
               fi
             condition: eq( variables['Agent.OS'], 'Linux' )
             displayName: Test on Linux
