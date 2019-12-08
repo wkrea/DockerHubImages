@@ -101,9 +101,9 @@ stages:
           - script: echo hello from Linux
           - template: AzureTemplates/DockerHub/BuildImages_steps.yml # Template reference
             parameters:
-              ImageName: $( ImageName )
-              DockerhubConn: $( DockerHubAccout )
-              repoName: $( RepositoryName )
+              ImageName: $(ImageName)
+              DockerhubConn: $(DockerHubAccout) #wallaskreaDockerHub
+              repoName: $(RepositoryName)
               buildContext: $(BuildContext)
               tags: $(Tags)
 
