@@ -56,8 +56,8 @@ resources:
     endpoint: wallaskreaDockerHub
     image: wallaskrea/alpinemini:latest
     env: {}
-    ports: "80"
-    volumes: ""
+    # ports: "80"
+    # volumes: ""
     
 variables:
   DockerHubAccout: "wallaskreaDockerHub"
