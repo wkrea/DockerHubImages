@@ -1,18 +1,21 @@
+# For test containers
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/service-containers?view=azure-devops&tabs=yaml#multiple-jobs
+
 # Inspired by
 # * https://github.com/microsoft/azure-pipelines-yaml/tree/master/design
-
 ###########################################################################
 ##                              TRIGGERS
 ###########################################################################
 trigger:
   branches:
     include:
-    - '*'
+    - refs/tags/{test}
     exclude:
-    - master
+    - '*'
   paths:
     exclude:
     - README.md
+    - AzureTemplates/*
   tags:
     include:
     - v*
@@ -22,45 +25,25 @@ trigger:
 ##                              PR's
 ###########################################################################
 pr:
+  autoCancel: true
   branches:
     include:
-      - '*'
+      - bug-fix/*
+      - feat/*
+      - azure_templates/*
     exclude:
       - master
       - releases/*
   paths:
     exclude:
     - README.md
+    - AzureTemplates/*
 
-###########################################################################
-##                              SCHEDULES
-###########################################################################
-schedules:
-- cron: "0 0 * * *"
-  displayName: Daily midnight build
-  branches:
-    include:
-    - master
-    - releases/*
-    exclude:
-    - releases/ancient/*
-- cron: "0 12 * * 0"
-  displayName: Weekly Sunday build
-  branches:
-    include:
-    - releases/*
-  always: true
 
 ###########################################################################
 ##      RESOURCES # types: pipelines | repositories | containers | packages
 ###########################################################################
-
-variables:
-  GITHUB_CONN: ""
-  DOCKERHUB_CONN: ""
-
 resources:         
-
   repositories:
   - repository: DockerHubImagesRepo      
     type: GitHub
@@ -75,111 +58,51 @@ resources:
     env: {}
     ports: "80"
     volumes: ""
-
-###########################################################################
-##                              BUILD  STAGE
-###########################################################################
+    
 stages:
-  - stage: "Build DockerHub Images"
-    jobs:
-    - job: 'Testing'
-      displayName: Testing
-      strategy:
-          matrix:
-            AlpineMini:
-              ImageName: "alpinemini"
-              BuildContext: "$(Build.SourcesDirectory)/Alpine"
-              Dockerfile: Dockerfile.alpinemini
-              Tags: |
-                  10.3.1
-                  latest
-            # CentOS7:
-            #   container: "centos:7"
-            # UbuntuPrecise:
-            #   container: "ubuntu:precise"
-            # UbuntuTrusty:
-            #   container: "ubuntu:trusty"
-            # UbuntuXenial:
-            #   container: "ubuntu:xenial"
-            # UbuntuBionic:
-            #   container: "ubuntu:bionic"
-            # DebianWheezy:
-            #   container: "debian:wheezy"
-            # DebianJessie:
-            #   container: "debian:jessie"
-            # DebianStretch:
-            #   container: "debian:stretch"
-            # DebianBuster:
-            #   container: "debian:buster"
-            # Manylinux1-686:
-            #   container: "quay.io/pypa/manylinux1_i686:latest"
-            # Manylinux1-64:
-            #   container: "quay.io/pypa/manylinux1_x86_64:latest"
-            # PhusionCentOS5-32:
-            #   container: "phusion/centos-5-32:latest"
-        # pool:
-        #   vmImage: $(variables.container)
-      steps:
-      - script: echo hello
-      - template: azure_templates/dockerhub_jobs.yml # Template reference
-        parameters:
-          job:
-            name: "Building ${{ variables.ImageName }}"
-            dockerfile: ${{ variables.Dockerfile }}
-            buildContext: ${{ variables.BuildContext }}
-            tags: ${{ variables.Tags }}
+  - template: AzureTemplates/DockerHub/BuildImages_jobs.yml #Build
+    parameters:
+      name: Build DockerHub Images
+      pool:
+        vmImage: ubuntu-latest
 
+  - stage: QA
+    dependsOn: Build
+  # - stage: Testing
+  #   dependsOn: Build
+  # - stage: Deploy
+  #   dependsOn: 
+  #   - QA
+  #   - Testing
 
-# https://github.com/alex/azure-pipelines-docker-test/blob/master/azure-pipelines.yml
-# # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=azure-devops
-
-# trigger:
-#   branches:
-#     include:
-#       - master
-#       - refs/tags/{tagname}
-#     exclude:
-#       - refs/tags/{othertagname}
-# # specific path build
-# pr:
-#   branches:
-#     include:
-#       - releases/*
-#     exclude:
-#       - master
-#   paths:
-#     include:
-#       - docs/*
-#     exclude:
-#       - docs/README.md
+# ------------------------------------------------------------- OLD!!!
 
 # resources:
-#   - repo: self
+# - repo: self
 
 # pool:
-#   vmImage: "Ubuntu-18.04"
-
-# variables:
-#   - name: imageName
-#     value: "alpinemini:$(build.buildId)"
+#   vmImage: 'Ubuntu-18.04'
 
 # steps:
-#   - task: Docker@2
-#     displayName: Login to Docker Hub
-#     inputs:
-#       command: login
-#       containerRegistry: wkreaDockerHub
-#   - task: Docker@2
-#     displayName: Build and Push
-#     inputs:
-#       command: buildAndPush
-#       repository: wallaskrea/alpinemini
-#       Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
-#       tags: |
-#         10.3.1
-#         latest
-#   - task: Docker@2
-#     displayName: Logout of wkreaDockerHub
-#     inputs:
-#       containerRegistry: "wkreaDockerHub"
-#       command: "logout"
+
+# - task: Docker@2
+#   displayName: Login to Docker Hub
+#   inputs:
+#     command: login
+#     containerRegistry: wallaskreaDockerHub
+# - task: Docker@2
+#   displayName: Build and Push
+#   inputs:
+#     command: buildAndPush
+#     repository: wallaskrea/alpinemini
+#     Dockerfile: $(Build.SourcesDirectory)/Alpine/Dockerfile.AlpineMini
+#     tags: |
+#       10.3.1
+#       latest
+# - script: |
+#     docker images 
+# - task: Docker@2
+#   displayName: Login to wkreaDockerHub
+#   inputs:
+#     containerRegistry: 'wallaskreaDockerHub'
+#     command: 'login'

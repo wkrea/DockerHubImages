@@ -1,0 +1,41 @@
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops
+parameters:
+  ImageName: ""
+  repoName: ""
+  DockerhubConn: ""
+  buildContext: "$(Build.SourcesDirectory)"
+  tags: latest
+
+steps:
+  - task: Docker@2
+    displayName: Build and Push ${{ parameters.ImageName }}
+    inputs:
+      command: buildAndPush
+      repository: ${{ parameters.repoName }}/${{ parameters.ImageName }} #wallaskrea/alpinemini #
+      buildContext: ${{ parameters.buildContext }} #$(Build.SourcesDirectory)/Alpine #
+      Dockerfile: ${{ parameters.buildContext }}/Dockerfile.${{ parameters.ImageName }} #/$(Build.SourcesDirectory)/Alpine/Dockerfile.${{ parameters.ImageName }} #${{ parameters.dockerfile }} #
+      containerRegistry: ${{ parameters.DockerhubConn }} #wallaskreaDockerHub
+      tags: |
+        $(tags)
+
+# - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
+#   param:
+#     serviceDockerHub: ${{ variables.SERVICENAME_DOCKERHUB }}
+#     repository: ${{ variables.DOCKERHUB_ACCOUNT }}/${{ job.ImageName }} #wallaskrea/alpinemini #
+#     dockerfile: ${{ job.dockerfile }}
+#     buildContext: ${{ job.buildContext }} #$(ALPINE_CONTEXT)
+#     tags: ${{ job.tags }}
+# - script: echo $(vmImage) -> finish ${{ job.name }}
+# - ${{ each vmImage in ${{ variables.vmImages }} }}: # Each job
+#   pool:
+#     vmImage: $(vmImage)
+#   steps:
+#     - script: echo $(vmImage)-> building ${{ job.name }}
+#     - template: azure_templates/buildDockerHubImages.yml # Template build&push dockerhub
+#       param:
+#         serviceDockerHub: ${{ variables.SERVICENAME_DOCKERHUB }}
+#         repository: ${{ variables.DOCKERHUB_ACCOUNT }}/${{ job.ImageName }} #wallaskrea/alpinemini #
+#         dockerfile: ${{ job.dockerfile }}
+#         buildContext: ${{ job.buildContext }} #$(ALPINE_CONTEXT)
+#         tags: ${{ job.tags }}
+#     - script: echo $(vmImage) -> finish ${{ job.name }}
